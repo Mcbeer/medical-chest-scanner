@@ -1,121 +1,34 @@
-import { BrowserMultiFormatReader, Result } from "@zxing/library";
-import React, { LegacyRef, useCallback, useEffect } from "react";
-import Webcam from "react-webcam";
+import { useContext } from "react";
+import { Outlet } from "react-router-dom";
+import { ScanContext } from "../../context/ScanContext";
+import { BarcodeScannerComponent } from "../BarcodeScannerComponent/BarcodeScannerComponent";
 
-export const BarcodeScannerComponent = ({
-  onUpdate,
-  onError,
-  width = "100%",
-  height = "100%",
-  facingMode = "environment",
-  torch = false,
-  delay = 500,
-  videoConstraints,
-  stopStream,
-}: {
-  onUpdate: (arg0: unknown, arg1?: Result) => void;
-  onError?: (arg0: string | DOMException) => void;
-  width?: number | string;
-  height?: number | string;
-  facingMode?: "environment" | "user";
-  torch?: boolean;
-  delay?: number;
-  videoConstraints?: MediaTrackConstraints;
-  stopStream?: boolean;
-}): React.ReactElement => {
-  const webcamRef: LegacyRef<Webcam> | null = React.useRef(null);
+export const Scan = () => {
+  const { setScannedId } = useContext(ScanContext);
 
-  const capture = useCallback(() => {
-    const codeReader = new BrowserMultiFormatReader();
-    const imageSrc =
-      webcamRef && webcamRef.current && webcamRef.current.getScreenshot();
-    if (imageSrc) {
-      codeReader
-        .decodeFromImage(undefined, imageSrc)
-        .then((result) => {
-          onUpdate(null, result);
-        })
-        .catch(() => {
-          return;
-        });
-    }
-  }, [onUpdate]);
-
-  useEffect(() => {
-    // Turn on the flashlight if prop is defined and device has the capability
-    if (
-      typeof torch === "boolean" &&
-      // @ts-ignore
-      navigator?.mediaDevices?.getSupportedConstraints().torch
-    ) {
-      const stream = getWebcamSrcObject();
-      // @ts-ignore
-      const track = stream && stream.getVideoTracks()[0]; // get the active track of the stream
-      if (
-        track &&
-        track.getCapabilities().torch &&
-        !track.getConstraints().torch
-      ) {
-        track
-          .applyConstraints({
-            advanced: [{ torch }],
-          })
-          .catch((err: any) => onUpdate(err));
-      }
-    }
-  }, [torch, onUpdate]);
-
-  const stop = () => {
-    let stream = getWebcamSrcObject();
-    if (stream) {
-      // @ts-ignore
-      stream.getTracks().forEach((track: any) => {
-        // @ts-ignore
-        stream.removeTrack(track);
-        track.stop();
-      });
-      stream = null;
+  const handleScan = (code: string) => {
+    if (code) {
+      setScannedId(code);
     }
   };
 
-  useEffect(() => {
-    if (stopStream) {
-      stop();
+  const handleError = (err: unknown) => {
+    if (err) {
+      console.error(err);
     }
-  }, [stopStream]);
-
-  useEffect(() => {
-    const interval = setInterval(capture, delay);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  const getWebcamSrcObject = () => {
-    return (
-      webcamRef &&
-      webcamRef.current &&
-      webcamRef.current.video &&
-      webcamRef.current.video.srcObject
-    );
   };
 
   return (
     <>
-      <Webcam
-        width={width}
-        height={height}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        videoConstraints={
-          videoConstraints || {
-            facingMode,
-          }
-        }
-        audio={false}
-        onUserMediaError={onError}
+      <BarcodeScannerComponent
+        width={screen.width}
+        height={screen.height}
+        onUpdate={(err, result) => {
+          if (result) handleScan(result.getText());
+          else handleError(err);
+        }}
       />
-      <div className="Scan__target"></div>
+      <Outlet />
     </>
   );
 };

@@ -1,9 +1,11 @@
 import { set } from "idb-keyval";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { GuideDisplay } from "./components/GuideDisplay/GuideDisplay";
-import { BarcodeScannerComponent } from "./components/Scan/Scan";
+import { Scan } from "./components/Scan/Scan";
 import { TopBar } from "./components/TopBar/TopBar";
+import { ScanContextProvider } from "./context/ScanContext";
 import { IGuide } from "./models";
 
 interface AppProps {
@@ -11,11 +13,6 @@ interface AppProps {
 }
 
 function App({ updateSW }: AppProps) {
-  const [scannedItem, setScannedItem] = useState<string>("");
-  const [scannerActive, setScannerActive] = useState<"active" | "inactive">(
-    "active"
-  );
-
   useEffect(() => {
     const myfunction = async () => {
       const data: IGuide = {
@@ -29,39 +26,18 @@ function App({ updateSW }: AppProps) {
     myfunction();
   }, []);
 
-  const handleScan = (data: string) => {
-    console.log("Data: ", data);
-    setScannedItem(data);
-    setScannerActive("inactive");
-  };
-
-  const handleError = (err: unknown) => {
-    console.log(err);
-    return;
-  };
-
-  const handleCloseDisplay = () => {
-    setScannedItem("");
-    setScannerActive("active");
-  };
-
   return (
-    <div className="App">
-      <TopBar scanningActive={scannerActive === "active"} syncActive={false} />
-      <div className="App__scanner">
-        <BarcodeScannerComponent
-          width={screen.width}
-          height={screen.height}
-          onUpdate={(err, result) => {
-            if (result) handleScan(result.getText());
-            else handleError(err);
-          }}
-        />
-      </div>
-      {scannedItem && scannedItem !== "" && (
-        <GuideDisplay id={scannedItem} close={handleCloseDisplay} />
-      )}
-    </div>
+    <Router>
+      <ScanContextProvider>
+        <div className="App">
+          <TopBar scanningActive={true} syncActive={false} />
+          <Routes>
+            <Route path="/" element={<Scan />} />
+            <Route path="guide/:id" element={<GuideDisplay />} />
+          </Routes>
+        </div>
+      </ScanContextProvider>
+    </Router>
   );
 }
 
