@@ -1,0 +1,30 @@
+.TopBar {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.5rem 1rem;
+  z-index: 4;
+  width: 100vw;
+}
+
+.TopBarItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &:active > &__icon {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+  }
+}

@@ -1,0 +1,17 @@
+.CloseButton {
+  outline: none;
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.CloseButton > svg {
+  width: 70%;
+  height: 70%;
+}
