@@ -27,8 +27,7 @@ export const BarcodeScannerComponent = ({
 
   const capture = useCallback(() => {
     const codeReader = new BrowserMultiFormatReader();
-    const imageSrc =
-      webcamRef && webcamRef.current && webcamRef.current.getScreenshot();
+    const imageSrc = webcamRef?.current?.getScreenshot();
     if (imageSrc) {
       codeReader
         .decodeFromImage(undefined, imageSrc)
@@ -46,16 +45,12 @@ export const BarcodeScannerComponent = ({
     if (
       typeof torch === "boolean" &&
       // @ts-ignore
-      navigator?.mediaDevices?.getSupportedConstraints().torch
+      navigator?.mediaDevices?.getSupportedConstraints?.().torch
     ) {
       const stream = getWebcamSrcObject();
       // @ts-ignore
       const track = stream && stream.getVideoTracks()[0]; // get the active track of the stream
-      if (
-        track &&
-        track.getCapabilities().torch &&
-        !track.getConstraints().torch
-      ) {
+      if (track.getCapabilities?.().torch && !track.getConstraints?.().torch) {
         track
           .applyConstraints({
             advanced: [{ torch }],
@@ -65,7 +60,7 @@ export const BarcodeScannerComponent = ({
     }
   }, [torch, onUpdate]);
 
-  const stop = () => {
+  const stop = useCallback(() => {
     let stream = getWebcamSrcObject();
     if (stream) {
       // @ts-ignore
@@ -76,20 +71,20 @@ export const BarcodeScannerComponent = ({
       });
       stream = null;
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (stopStream) {
       stop();
     }
-  }, [stopStream]);
+  }, [stopStream, stop]);
 
   useEffect(() => {
     const interval = setInterval(capture, delay);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [capture, delay]);
 
   const getWebcamSrcObject = () => {
     return (

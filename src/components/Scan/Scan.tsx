@@ -21,8 +21,8 @@ export const Scan = () => {
   return (
     <>
       <BarcodeScannerComponent
-        width={screen.width}
-        height={screen.height}
+        width={window.innerWidth}
+        height={window.innerHeight}
         onUpdate={(err, result) => {
           if (result) handleScan(result.getText());
           else handleError(err);

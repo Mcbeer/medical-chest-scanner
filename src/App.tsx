@@ -8,11 +8,7 @@ import { TopBar } from "./components/TopBar/TopBar";
 import { ScanContextProvider } from "./context/ScanContext";
 import { IGuide } from "./models";
 
-interface AppProps {
-  updateSW: () => void;
-}
-
-function App({ updateSW }: AppProps) {
+function App() {
   useEffect(() => {
     const myfunction = async () => {
       const data: IGuide = {
