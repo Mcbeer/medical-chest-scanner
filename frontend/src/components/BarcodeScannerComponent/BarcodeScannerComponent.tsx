@@ -1,34 +1,39 @@
 import { BrowserMultiFormatReader, Result } from "@zxing/library";
-import React, { LegacyRef, useCallback, useEffect } from "react";
+import React, {
+  Ref,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Webcam from "react-webcam";
 
 export const BarcodeScannerComponent = ({
   onUpdate,
   onError,
-  width = "100%",
-  height = "100%",
   facingMode = "environment",
   torch = false,
   delay = 500,
   videoConstraints,
-  stopStream,
 }: {
   onUpdate: (arg0: unknown, arg1?: Result) => void;
   onError?: (arg0: string | DOMException) => void;
-  width?: number | string;
-  height?: number | string;
   facingMode?: "environment" | "user";
   torch?: boolean;
   delay?: number;
   videoConstraints?: MediaTrackConstraints;
-  stopStream?: boolean;
 }): React.ReactElement => {
-  console.log(width, height);
-  const webcamRef: LegacyRef<Webcam> | null = React.useRef(null);
+  const [error, setError] = useState("");
+  const webcamRef: Ref<Webcam> | null = useRef(null);
+
+  const getWebcamSrcObject = useMemo(() => {
+    return webcamRef?.current?.video?.srcObject;
+  }, [webcamRef]);
 
   const capture = useCallback(() => {
     const codeReader = new BrowserMultiFormatReader();
-    const imageSrc = webcamRef?.current?.getScreenshot();
+    const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
       codeReader
         .decodeFromImage(undefined, imageSrc)
@@ -46,11 +51,16 @@ export const BarcodeScannerComponent = ({
     if (
       typeof torch === "boolean" &&
       // @ts-ignore
-      navigator?.mediaDevices?.getSupportedConstraints?.().torch
+      navigator.mediaDevices.getSupportedConstraints().torch
     ) {
-      const stream = getWebcamSrcObject();
+      const stream = getWebcamSrcObject;
+      if (!stream) {
+        setError("No stream found");
+        return;
+      }
+
       // @ts-ignore
-      const track = stream?.getVideoTracks()[0]; // get the active track of the stream
+      const track = stream.getVideoTracks()[0]; // get the active track of the stream
       if (track?.getCapabilities?.().torch && !track.getConstraints?.().torch) {
         track
           .applyConstraints({
@@ -59,26 +69,7 @@ export const BarcodeScannerComponent = ({
           .catch((err: any) => onUpdate(err));
       }
     }
-  }, [torch, onUpdate]);
-
-  const stop = useCallback(() => {
-    let stream = getWebcamSrcObject();
-    if (stream) {
-      // @ts-ignore
-      stream.getTracks().forEach((track: any) => {
-        // @ts-ignore
-        stream.removeTrack(track);
-        track.stop();
-      });
-      stream = null;
-    }
-  }, []);
-
-  useEffect(() => {
-    if (stopStream) {
-      stop();
-    }
-  }, [stopStream, stop]);
+  }, [torch, onUpdate, getWebcamSrcObject]);
 
   useEffect(() => {
     const interval = setInterval(capture, delay);
@@ -87,18 +78,14 @@ export const BarcodeScannerComponent = ({
     };
   }, [capture, delay]);
 
-  const getWebcamSrcObject = () => {
-    return webcamRef?.current?.video?.srcObject;
-  };
-
   return (
     <>
       <p style={{ position: "fixed", bottom: 0, zIndex: 100 }}>
         {torch.toString()}
       </p>
+      <p style={{ position: "absolute", top: "50%", left: "50%" }}>{error}</p>
       <Webcam
-        width={width}
-        height={height}
+        autoPlay={true}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
         videoConstraints={

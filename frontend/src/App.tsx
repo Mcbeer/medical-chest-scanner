@@ -16,8 +16,6 @@ const App = () => {
           <TopBar />
           <Routes>
             <Route path="/" element={<Scan />} />
-          </Routes>
-          <Routes>
             <Route path="guide/:id" element={<GuideDisplay />} />
           </Routes>
         </div>
