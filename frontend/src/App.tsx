@@ -1,29 +1,30 @@
-import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.scss";
+import { DataHandler } from "./components/DataHandler/DataHandler";
 import { GuideDisplay } from "./components/GuideDisplay/GuideDisplay";
 import { Scan } from "./components/Scan/Scan";
 import { TopBar } from "./components/TopBar/TopBar";
-import { fetchGuides } from "./scripts/fetchGuides";
+import { GuideContextProvider } from "./context/GuideContext";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
-function App() {
-  useEffect(() => {
-    fetchGuides();
-  }, []);
-
+const App = () => {
   return (
-    <Router>
-      <div className="App">
-        <TopBar syncActive={false} />
-        <Routes>
-          <Route path="/" element={<Scan />} />
-          <Route path="guide/:id" element={<GuideDisplay />} />
-        </Routes>
-      </div>
-    </Router>
+    <GuideContextProvider>
+      <DataHandler />
+      <Router>
+        <div className="App">
+          <TopBar />
+          <Routes>
+            <Route path="/" element={<Scan />} />
+          </Routes>
+          <Routes>
+            <Route path="guide/:id" element={<GuideDisplay />} />
+          </Routes>
+        </div>
+      </Router>
+    </GuideContextProvider>
   );
-}
+};
 
 export default App;
 

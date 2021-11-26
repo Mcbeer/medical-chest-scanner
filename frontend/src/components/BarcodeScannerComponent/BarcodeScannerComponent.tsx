@@ -23,6 +23,7 @@ export const BarcodeScannerComponent = ({
   videoConstraints?: MediaTrackConstraints;
   stopStream?: boolean;
 }): React.ReactElement => {
+  console.log(width, height);
   const webcamRef: LegacyRef<Webcam> | null = React.useRef(null);
 
   const capture = useCallback(() => {
@@ -49,8 +50,8 @@ export const BarcodeScannerComponent = ({
     ) {
       const stream = getWebcamSrcObject();
       // @ts-ignore
-      const track = stream && stream.getVideoTracks()[0]; // get the active track of the stream
-      if (track.getCapabilities?.().torch && !track.getConstraints?.().torch) {
+      const track = stream?.getVideoTracks()[0]; // get the active track of the stream
+      if (track?.getCapabilities?.().torch && !track.getConstraints?.().torch) {
         track
           .applyConstraints({
             advanced: [{ torch }],
@@ -87,16 +88,14 @@ export const BarcodeScannerComponent = ({
   }, [capture, delay]);
 
   const getWebcamSrcObject = () => {
-    return (
-      webcamRef &&
-      webcamRef.current &&
-      webcamRef.current.video &&
-      webcamRef.current.video.srcObject
-    );
+    return webcamRef?.current?.video?.srcObject;
   };
 
   return (
     <>
+      <p style={{ position: "fixed", bottom: 0, zIndex: 100 }}>
+        {torch.toString()}
+      </p>
       <Webcam
         width={width}
         height={height}
@@ -109,8 +108,8 @@ export const BarcodeScannerComponent = ({
         }
         audio={false}
         onUserMediaError={onError}
+        style={{ objectFit: "fill" }}
       />
-      <div className="Scan__target"></div>
     </>
   );
 };

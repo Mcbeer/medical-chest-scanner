@@ -1,28 +1,18 @@
-import { get } from "idb-keyval";
-import React, { useEffect, useState } from "react";
+import { useObservableState } from "observable-hooks";
 import { useNavigate, useParams } from "react-router-dom";
-import { DataModel } from "../../models/DataModel";
+import { useGuideContext } from "../../context/GuideContext";
 import { CloseButton } from "../CloseButton/CloseButton";
 import "./GuideDisplay.scss";
 
 export const GuideDisplay = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [guide, setGuide] = useState<DataModel | null>(null);
+  const { guides$ } = useGuideContext();
+  const guides = useObservableState(guides$, []);
 
-  console.log(id);
-
-  useEffect(() => {
-    const setGuideInMemory = async () => {
-      if (id) {
-        const myGuide = await get(id);
-        if (myGuide) {
-          setGuide(myGuide);
-        }
-      }
-    };
-    setGuideInMemory();
-  }, [id]);
+  const selectedGuide = guides.find(
+    (guide) => guide.id === id && guide.lang === "en-GB"
+  );
 
   const onClose = () => {
     navigate("/");
@@ -33,13 +23,54 @@ export const GuideDisplay = () => {
       <div className="GuideDisplay__close">
         <CloseButton onClick={onClose} />
       </div>
-      {guide && (
-        <>
-          <h1>{guide.id}</h1>
-          <p>{guide.name}</p>
-          <p>{guide.dosage}</p>
-        </>
+      {selectedGuide && (
+        <div className="GuideDisplay__content">
+          <h1 className="GuideDisplay__title">
+            {selectedGuide.id} - {selectedGuide.name}
+          </h1>
+          <div className="GuideDisplay__content-grid">
+            <ContentDisplayGridItem label="Form" value={selectedGuide.form} />
+            <ContentDisplayGridItem
+              label="Effect"
+              value={selectedGuide.effect}
+            />
+            <ContentDisplayGridItem
+              label="Dosage"
+              value={selectedGuide.dosage}
+            />
+            <ContentDisplayGridItem
+              label="Side effects"
+              value={selectedGuide.sideEffects}
+            />
+            <ContentDisplayGridItem
+              label="Validity"
+              value={selectedGuide.validity}
+            />
+            <ContentDisplayGridItem
+              label="Storage"
+              value={selectedGuide.storage}
+            />
+            <ContentDisplayGridItem
+              label="Remarks"
+              value={selectedGuide.remarks}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
 };
+
+interface ContentDisplayGridItemProps {
+  label: string;
+  value: string;
+}
+const ContentDisplayGridItem = ({
+  label,
+  value,
+}: ContentDisplayGridItemProps) => (
+  <div className="GuideDisplay__content-grid-item">
+    <strong>{label}</strong>
+    <p>{value}</p>
+  </div>
+);
