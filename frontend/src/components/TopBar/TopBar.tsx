@@ -3,11 +3,10 @@ import { BiSync } from "react-icons/bi";
 import "./TopBar.scss";
 
 export interface TopBarProps {
-  scanningActive: boolean;
   syncActive: boolean;
 }
 
-export const TopBar = ({ scanningActive, syncActive }: TopBarProps) => {
+export const TopBar = ({ syncActive }: TopBarProps) => {
   return (
     <ul className="TopBar">
       {/* <TopBarItem

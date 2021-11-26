@@ -1,16 +1,14 @@
 import { get } from "idb-keyval";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ScanContext } from "../../context/ScanContext";
-import { IGuide } from "../../models";
+import { DataModel } from "../../models/DataModel";
 import { CloseButton } from "../CloseButton/CloseButton";
 import "./GuideDisplay.scss";
 
 export const GuideDisplay = () => {
-  const { setScannedId } = useContext(ScanContext);
   const navigate = useNavigate();
   const { id } = useParams();
-  const [guide, setGuide] = useState<IGuide | null>(null);
+  const [guide, setGuide] = useState<DataModel | null>(null);
 
   console.log(id);
 
@@ -27,7 +25,6 @@ export const GuideDisplay = () => {
   }, [id]);
 
   const onClose = () => {
-    setScannedId("");
     navigate("/");
   };
 
@@ -39,7 +36,8 @@ export const GuideDisplay = () => {
       {guide && (
         <>
           <h1>{guide.id}</h1>
-          <p>{guide.data}</p>
+          <p>{guide.name}</p>
+          <p>{guide.dosage}</p>
         </>
       )}
     </div>

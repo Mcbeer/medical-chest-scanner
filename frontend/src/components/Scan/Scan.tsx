@@ -1,14 +1,11 @@
-import { useContext } from "react";
-import { Outlet } from "react-router-dom";
-import { ScanContext } from "../../context/ScanContext";
+import { Outlet, useNavigate } from "react-router-dom";
 import { BarcodeScannerComponent } from "../BarcodeScannerComponent/BarcodeScannerComponent";
 
 export const Scan = () => {
-  const { setScannedId } = useContext(ScanContext);
-
+  const navigate = useNavigate();
   const handleScan = (code: string) => {
     if (code) {
-      setScannedId(code);
+      navigate(`/guide/${code}`);
     }
   };
 
