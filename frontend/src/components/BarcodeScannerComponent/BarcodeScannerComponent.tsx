@@ -1,12 +1,5 @@
 import { BrowserMultiFormatReader, Result } from "@zxing/library";
-import React, {
-  Ref,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { Ref, useCallback, useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 
 export const BarcodeScannerComponent = ({
@@ -17,19 +10,16 @@ export const BarcodeScannerComponent = ({
   delay = 500,
   videoConstraints,
 }: {
-  onUpdate: (arg0: unknown, arg1?: Result) => void;
+  onUpdate: (arg1?: Result) => void;
   onError?: (arg0: string | DOMException) => void;
   facingMode?: "environment" | "user";
   torch?: boolean;
   delay?: number;
   videoConstraints?: MediaTrackConstraints;
 }): React.ReactElement => {
-  const [error, setError] = useState("");
   const webcamRef: Ref<Webcam> | null = useRef(null);
 
-  const getWebcamSrcObject = useMemo(() => {
-    return webcamRef?.current?.video?.srcObject;
-  }, [webcamRef]);
+  const getWebcamSrcObject = webcamRef?.current?.video?.srcObject;
 
   const capture = useCallback(() => {
     const codeReader = new BrowserMultiFormatReader();
@@ -38,7 +28,7 @@ export const BarcodeScannerComponent = ({
       codeReader
         .decodeFromImage(undefined, imageSrc)
         .then((result) => {
-          onUpdate(null, result);
+          onUpdate(result);
         })
         .catch(() => {
           return;
@@ -54,13 +44,9 @@ export const BarcodeScannerComponent = ({
       navigator.mediaDevices.getSupportedConstraints().torch
     ) {
       const stream = getWebcamSrcObject;
-      if (!stream) {
-        setError("No stream found");
-        return;
-      }
 
       // @ts-ignore
-      const track = stream.getVideoTracks()[0]; // get the active track of the stream
+      const track = stream?.getVideoTracks()[0]; // get the active track of the stream
       if (track?.getCapabilities?.().torch && !track.getConstraints?.().torch) {
         track
           .applyConstraints({
@@ -80,12 +66,10 @@ export const BarcodeScannerComponent = ({
 
   return (
     <>
-      <p style={{ position: "fixed", bottom: 0, zIndex: 100 }}>
-        {torch.toString()}
-      </p>
-      <p style={{ position: "absolute", top: "50%", left: "50%" }}>{error}</p>
       <Webcam
         autoPlay={true}
+        width={window.innerWidth}
+        height={window.innerHeight}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
         videoConstraints={

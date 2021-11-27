@@ -1,15 +1,19 @@
 import { set } from "idb-keyval";
 import { useObservableState } from "observable-hooks";
 import React, { ReactNode, useState } from "react";
-import { BiBook, BiCheck, BiSync } from "react-icons/bi";
+import { BiBook, BiCheck, BiSync, BiX } from "react-icons/bi";
 import { useGuideContext } from "../../context/GuideContext";
+import { useLanguageContext } from "../../context/LanguageContext";
 import { DataModel } from "../../models/DataModel";
 import { fetchGuides } from "../../scripts/fetchGuides";
 import "./TopBar.scss";
 
 export const TopBar = () => {
   const { guides$ } = useGuideContext();
+  const language$ = useLanguageContext();
   const guidesAvailable = useObservableState(guides$, []);
+  const selectedLanguage = useObservableState(language$, "en-GB");
+
   const [syncingState, setSyncingState] = useState(false);
 
   const handleSyncGuides = async () => {
@@ -29,13 +33,45 @@ export const TopBar = () => {
     }
   };
 
+  const getReadyState = (): "ready" | "not ready" | "loading" => {
+    if (!syncingState && guidesAvailable.length > 0) {
+      return "ready";
+    }
+    if (syncingState) {
+      return "loading";
+    }
+
+    if (!syncingState && guidesAvailable.length === 0) {
+      return "not ready";
+    }
+
+    return "not ready";
+  };
+
+  const getLanguageLabel = (): "English" | "Dansk" => {
+    switch (selectedLanguage) {
+      case "da-DK":
+        return "Dansk";
+      case "en-GB":
+        return "English";
+      default:
+        return "English";
+    }
+  };
+
   return (
     <ul className="TopBar">
       <TopBarItem
         icon={
-          syncingState ? <BiSync size="1.5rem" /> : <BiCheck size="1.5rem" />
+          getReadyState() === "loading" ? (
+            <BiSync size="1.5rem" />
+          ) : getReadyState() === "ready" ? (
+            <BiCheck size="1.5rem" />
+          ) : (
+            <BiX size="1.5rem" />
+          )
         }
-        label={guidesAvailable.length > 0 ? "Ready" : "Not ready"}
+        label={getReadyState()}
         action={handleSyncGuides}
       />
       <TopBarItem
@@ -43,14 +79,17 @@ export const TopBar = () => {
         label={`${guidesAvailable.length} guides`}
         action={() => {}}
       />
-      {/* <p>{guidesAvailable.length} guides available</p> */}
-      {/* <TopBarItem
-        icon={<BiSync size="1.5rem" />}
-        label="Sync"
+      <TopBarItem
+        icon={<h1>{selectedLanguage.split("-")[0].toUpperCase()}</h1>}
+        label={`${getLanguageLabel()}`}
         action={() => {
-            console.log("Syncing");
+          if (selectedLanguage === "da-DK") {
+            language$.next("en-GB");
+          } else {
+            language$.next("da-DK");
+          }
         }}
-      /> */}
+      />
     </ul>
   );
 };

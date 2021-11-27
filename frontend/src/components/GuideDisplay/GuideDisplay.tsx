@@ -1,6 +1,7 @@
-import { useObservableState } from "observable-hooks";
+import { useObservableGetState, useObservableState } from "observable-hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGuideContext } from "../../context/GuideContext";
+import { useLanguageContext } from "../../context/LanguageContext";
 import { CloseButton } from "../CloseButton/CloseButton";
 import "./GuideDisplay.scss";
 
@@ -8,14 +9,16 @@ export const GuideDisplay = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { guides$ } = useGuideContext();
+  const language$ = useLanguageContext();
   const guides = useObservableState(guides$, []);
+  const language = useObservableGetState(language$, "en-GB");
 
   const selectedGuide = guides.find(
-    (guide) => guide.id === id && guide.lang === "en-GB"
+    (guide) => guide.id === id && guide.lang === language
   );
 
   const onClose = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   return (

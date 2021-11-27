@@ -133,6 +133,7 @@ body {
 
 #root {
   height: 100%;
+  overflow: hidden;
 }
 
 * {
@@ -145,4 +146,9 @@ h3,
 p,
 label {
   user-select: none;
+}
+
+a {
+  text-decoration: none;
+  color: currentColor;
 }

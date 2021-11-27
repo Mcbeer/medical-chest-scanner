@@ -10,13 +10,7 @@ export const Scan = () => {
 
   const handleScan = (code: string) => {
     if (code) {
-      navigate(`/guide/${code}`);
-    }
-  };
-
-  const handleError = (err: unknown) => {
-    if (err) {
-      console.error(err);
+      navigate(`/guides/${code}`);
     }
   };
 
@@ -26,14 +20,17 @@ export const Scan = () => {
 
   return (
     <>
-      <div className="Scan__torch" onClick={handleSetTorch}>
+      <div
+        className="Scan__torch"
+        style={{ backgroundColor: torchActive ? "yellow" : "#fff" }}
+        onClick={handleSetTorch}
+      >
         <BiBulb style={{ pointerEvents: "none" }} size="2rem" />
       </div>
       <BarcodeScannerComponent
         torch={torchActive}
-        onUpdate={(err, result) => {
+        onUpdate={(result) => {
           if (result) handleScan(result.getText());
-          else handleError(err);
         }}
       />
       <ScanTarget />

@@ -4,9 +4,10 @@
   left: 10px;
   right: 10px;
   border-radius: 8px;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-content: center;
   align-items: center;
-  justify-content: space-evenly;
   height: 70px;
   z-index: 4;
   background-color: #142c54;
@@ -34,5 +35,9 @@
 
   &__label {
     color: #fff;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
   }
 }
