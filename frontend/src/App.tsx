@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.scss";
+import { DataHandler } from "./components/DataHandler/DataHandler";
 import { GuideDisplay } from "./components/GuideDisplay/GuideDisplay";
 import { GuidesList } from "./components/GuidesList/GuidesList";
 import { Navigation } from "./components/Navigation/Navigation";
@@ -13,7 +14,7 @@ const App = () => {
   return (
     <LanguageContextProvider>
       <GuideContextProvider>
-        {/* <DataHandler /> */}
+        <DataHandler />
         <Router>
           <div className="App">
             <TopBar />

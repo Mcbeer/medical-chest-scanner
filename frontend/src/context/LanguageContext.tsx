@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import { BehaviorSubject } from "rxjs";
 
-type Language = "da-DK" | "en-GB";
+export type Language = "da-DK" | "en-GB";
 
 export const language$ = new BehaviorSubject<Language>("en-GB");
 

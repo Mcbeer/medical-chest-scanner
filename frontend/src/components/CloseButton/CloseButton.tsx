@@ -6,7 +6,7 @@ interface CloseButtonProps {
 }
 
 export const CloseButton = ({ onClick }: CloseButtonProps) => (
-  <button className="CloseButton" onClick={onClick}>
+  <button data-testid="close-button" className="CloseButton" onClick={onClick}>
     <AiOutlineClose size="2rem" />
   </button>
 );

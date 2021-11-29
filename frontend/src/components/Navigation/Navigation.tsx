@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { BiBook, BiCamera } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Navigation.scss";
 
 export const Navigation = () => {
@@ -24,11 +24,22 @@ interface NavigationItemProps {
   label: string;
 }
 
-const NavigationItem = ({ to, icon, label }: NavigationItemProps) => (
-  <li className="NavigationItem">
-    <Link to={to}>
-      {icon}
-      <label>{label}</label>
-    </Link>
-  </li>
-);
+export const NavigationItem = ({ to, icon, label }: NavigationItemProps) => {
+  const location = useLocation();
+  const isActiveRoute = location.pathname === to;
+
+  return (
+    <li className="NavigationItem">
+      <Link
+        to={to}
+        style={{
+          color: isActiveRoute ? "#142c54" : "#000",
+          textDecoration: isActiveRoute ? "underline" : "none",
+        }}
+      >
+        {icon}
+        <label>{label}</label>
+      </Link>
+    </li>
+  );
+};

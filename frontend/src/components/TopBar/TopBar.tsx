@@ -9,7 +9,7 @@ import { fetchGuides } from "../../scripts/fetchGuides";
 import "./TopBar.scss";
 
 export const TopBar = () => {
-  const { guides$ } = useGuideContext();
+  const { guides$, guideSyncTime$ } = useGuideContext();
   const language$ = useLanguageContext();
   const guidesAvailable = useObservableState(guides$, []);
   const selectedLanguage = useObservableState(language$, "en-GB");
@@ -24,11 +24,10 @@ export const TopBar = () => {
         set("guides", guides);
         set("guideSyncTime", Date.now());
         guides$.next(guides);
-
+        guideSyncTime$.next(Date.now());
         setSyncingState(false);
       }
     } catch (err) {
-      console.error(err);
       setSyncingState(false);
     }
   };
@@ -85,8 +84,10 @@ export const TopBar = () => {
         action={() => {
           if (selectedLanguage === "da-DK") {
             language$.next("en-GB");
+            set("lang", "en-GB");
           } else {
             language$.next("da-DK");
+            set("lang", "da-DK");
           }
         }}
       />
