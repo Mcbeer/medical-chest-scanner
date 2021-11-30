@@ -1148,34 +1148,6 @@
     "lang": "en-GB"
   },
   {
-    "id": "8.1",
-    "name": "Atovaquon/Proguanil (Malarone®).",
-    "dosage": "Tabletterne skal indtages med fedtholdigt mad (mælk/smør).\r\nDosis voksne: 4 tabletter x 1 dagligt i 3 dage.",
-    "form": "Tabletter à 250/100 mg.",
-    "effect": "Hæmmer celledelingen af malariaparasiten i leveren.",
-    "groupNumber": 8,
-    "groupName": " Malaria behandling/ Malaria Treatment",
-    "sideEffects": "Hovedpine, mavekneb, kvalme, opkastning, appetitløshed, diaré, hoste og allergisk hududslet.",
-    "validity": "5 år fra produktionsdato (Malarone®, GlaxoSmithKline Pharma A/S).",
-    "storage": "Almindelig temperatur.",
-    "remarks": "Søg samråd med Radio Medical uanset resultatet af malariatesten.\r\nVed opkastning inden én time efter indtagelse af medikamentet indtages ny tablet.\r\nPatientens almen tilstand skal bedres og temperaturen blive normal efter 2 – 3 dages behandling. I modsat fald kan man i samråd med Radio Medical fortsætte med 8.3",
-    "lang": "da-DK"
-  },
-  {
-    "id": "8.1",
-    "name": "Atovaquone/Proguanil (Malarone®)",
-    "dosage": "The tablets must be taken with fatty food (milk/butter). Dose, adults: 4 tablets daily for 3 days.",
-    "form": "Tablets of 250/100 mg.",
-    "effect": "Inhibits the proliferation of the malaria parasite in the liver.",
-    "groupNumber": 8,
-    "groupName": " Malaria behandling/ Malaria Treatment",
-    "sideEffects": "Headache, slight stomach pains, nausea, vomiting, loss of appetite, diarrhoea, and coughing.",
-    "validity": "5 years from the date of production (Malarone®, GlaxoSmithKline Pharma A/S).",
-    "storage": "Normal temperature.",
-    "remarks": "Consult Radio Medical.\r\nIf the patient vomits within 1 hour after having taken the medicament, the treatment is repeated.\r\nThe patient should be recovering after 2-3 days’ treatment. If this is not the case, proceed with 8.3 after having consulted Radio Medical.",
-    "lang": "en-GB"
-  },
-  {
     "id": "8.3",
     "name": "Quinin.",
     "dosage": "10 mg per kg legemsvægt x 3 dagligt i 7 dage",
