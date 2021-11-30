@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { DataHandler } from "./components/DataHandler/DataHandler";
@@ -8,26 +9,29 @@ import { Scan } from "./components/Scan/Scan";
 import { TopBar } from "./components/TopBar/TopBar";
 import { GuideContextProvider } from "./context/GuideContext";
 import { LanguageContextProvider } from "./context/LanguageContext";
+import "./locales/i18n";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 const App = () => {
   return (
-    <LanguageContextProvider>
-      <GuideContextProvider>
-        <DataHandler />
-        <Router>
-          <div className="App">
-            <TopBar />
-            <Routes>
-              <Route path="/" element={<Scan />} />
-              <Route path="/guides" element={<GuidesList />} />
-              <Route path="guides/:id" element={<GuideDisplay />} />
-            </Routes>
-            <Navigation />
-          </div>
-        </Router>
-      </GuideContextProvider>
-    </LanguageContextProvider>
+    <Suspense fallback={<div>Loading...</div>}>
+      <LanguageContextProvider>
+        <GuideContextProvider>
+          <DataHandler />
+          <Router>
+            <div className="App">
+              <TopBar />
+              <Routes>
+                <Route path="/" element={<Scan />} />
+                <Route path="/guides" element={<GuidesList />} />
+                <Route path="guides/:id" element={<GuideDisplay />} />
+              </Routes>
+              <Navigation />
+            </div>
+          </Router>
+        </GuideContextProvider>
+      </LanguageContextProvider>
+    </Suspense>
   );
 };
 

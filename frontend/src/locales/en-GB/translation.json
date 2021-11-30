@@ -1,0 +1,11 @@
+{
+  "guideDisplay": {
+    "form": "Form",
+    "effect": "Effect",
+    "dosage": "Dosage",
+    "sideEffects": "Side Effects",
+    "validity": "Validity",
+    "storage": "Storage",
+    "remarks": "Remarks"
+  }
+}

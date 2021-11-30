@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "@zxing/library": "^0.18.6",
+    "i18next": "^21.5.4",
     "idb-keyval": "^6.0.3",
     "observable-hooks": "^4.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-i18next": "^11.14.3",
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",

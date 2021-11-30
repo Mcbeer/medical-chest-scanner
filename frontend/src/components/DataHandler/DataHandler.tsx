@@ -1,5 +1,7 @@
+import i18next from "i18next";
 import { get, set } from "idb-keyval";
 import { useEffect } from "react";
+import { Subscription } from "rxjs";
 import { useGuideContext } from "../../context/GuideContext";
 import { Language, useLanguageContext } from "../../context/LanguageContext";
 import { fetchGuides } from "../../scripts/fetchGuides";
@@ -29,9 +31,13 @@ export const DataHandler = () => {
 
   // Get current language saved in idb, or default to en-GB
   useEffect(() => {
+    let languageSubscription: Subscription;
+
     (async () => {
       const lang = (await get("lang")) as Language;
-
+      languageSubscription = language$.subscribe((lang) =>
+        i18next.changeLanguage(lang)
+      );
       if (lang) {
         language$.next(lang);
       } else {
@@ -39,6 +45,8 @@ export const DataHandler = () => {
         set("lang", "en-GB");
       }
     })();
+
+    return () => languageSubscription.unsubscribe();
   }, [language$]);
 
   // Setup language sync timer
