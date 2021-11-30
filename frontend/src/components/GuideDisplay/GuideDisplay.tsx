@@ -29,7 +29,8 @@ export const GuideDisplay = () => {
       {selectedGuide && (
         <div className="GuideDisplay__content">
           <h1 className="GuideDisplay__title">
-            {selectedGuide.id} - {selectedGuide.name}
+            <h1>{selectedGuide.id}</h1>
+            <h2>{selectedGuide.name}</h2>
           </h1>
           <div className="GuideDisplay__content-grid">
             <ContentDisplayGridItem label="Form" value={selectedGuide.form} />
