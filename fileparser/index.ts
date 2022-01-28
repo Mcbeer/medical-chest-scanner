@@ -19,9 +19,9 @@ interface DataModel {
 }
 
 const main = () => {
-  const workSheetsFromFile = xlsx.parse(`${__dirname}/vejledninger.xlsx`);
+  const workSheetsFromFile = xlsx.parse(`${__dirname}/vejledninger2.xlsx`);
   const sheetData = workSheetsFromFile[0].data as ReadExcelRow[];
-  const withoutHeaders = sheetData.slice(2);
+  const withoutHeaders = sheetData.slice(1);
 
   const groupedData: DataModel[] = [];
   let intermediate: DataModel = {
@@ -40,7 +40,6 @@ const main = () => {
   };
   let counter = 0;
   withoutHeaders.forEach((row) => {
-    // console.log(row);
     if (row.length === 1) {
       intermediate = {
         id: "",
@@ -63,10 +62,12 @@ const main = () => {
       return;
     }
 
+    console.table(row);
+
     if (row.length === 4 && counter === 1) {
-      intermediate.id = row[1].trim();
-      intermediate.name = row[3].trim();
-      if (isDanish(row[1].trim()) || isDanish(row[3].trim())) {
+      intermediate.id = row[1]?.trim() ?? "";
+      intermediate.name = row[3]?.trim() ?? "";
+      if (isDanish(row[1]?.trim()) || isDanish(row[3]?.trim())) {
         intermediate.lang = "da-DK";
       }
       counter++;
@@ -74,8 +75,8 @@ const main = () => {
     }
 
     if (row.length === 4 && counter === 2) {
-      intermediate.form = row[3].trim();
-      if (isDanish(row[3].trim())) {
+      intermediate.form = row[3]?.trim() ?? "";
+      if (isDanish(row[3]?.trim() ?? false)) {
         intermediate.lang = "da-DK";
       }
       counter++;
