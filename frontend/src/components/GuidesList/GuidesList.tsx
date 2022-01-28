@@ -13,7 +13,7 @@ export const GuidesList = () => {
   return (
     <div className="GuidesList">
       {guides.map((guide) => (
-        <GuideListItem key={guide.id} guide={guide} />
+        <GuideListItem key={guide.id + guide.name} guide={guide} />
       ))}
     </div>
   );
