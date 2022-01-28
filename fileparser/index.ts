@@ -19,9 +19,9 @@ interface DataModel {
 }
 
 const main = () => {
-  const workSheetsFromFile = xlsx.parse(`${__dirname}/vejledninger2.xlsx`);
+  const workSheetsFromFile = xlsx.parse(`${__dirname}/vejledninger.xlsx`);
   const sheetData = workSheetsFromFile[0].data as ReadExcelRow[];
-  const withoutHeaders = sheetData.slice(1);
+  const withoutHeaders = sheetData.slice(2);
 
   const groupedData: DataModel[] = [];
   let intermediate: DataModel = {
