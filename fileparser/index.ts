@@ -19,7 +19,9 @@ interface DataModel {
 }
 
 const main = () => {
-  const workSheetsFromFile = xlsx.parse(`${__dirname}/vejledninger.xlsx`);
+  const workSheetsFromFile = xlsx.parse(
+    `${__dirname}/rettetvejledninger2.xlsx`
+  );
   const sheetData = workSheetsFromFile[0].data as ReadExcelRow[];
   const withoutHeaders = sheetData.slice(2);
 
@@ -40,6 +42,7 @@ const main = () => {
   };
   let counter = 0;
   withoutHeaders.forEach((row) => {
+    console.log(row);
     if (row.length === 1) {
       intermediate = {
         id: "",
@@ -156,7 +159,7 @@ const main = () => {
     }
   });
 
-  fs.writeFileSync("vejledninger.json", JSON.stringify(groupedData));
+  fs.writeFileSync("vejledninger2.json", JSON.stringify(groupedData));
   console.log("Data mapped...");
 };
 
