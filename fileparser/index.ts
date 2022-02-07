@@ -167,4 +167,18 @@ const isDanish = (str: string) => {
   return str.includes("æ") || str.includes("ø") || str.includes("å");
 };
 
-main();
+// main();
+
+function deduplicate() {
+  const data = fs.readFileSync("vejledninger.json", "utf8");
+  const parsedData = JSON.parse(data);
+  const uniqueData = parsedData.reduce((acc: any[], item: any) => {
+    if (!acc.find((x) => x.id === item.id && x.lang === item.lang)) {
+      acc.push(item);
+    }
+    return acc;
+  }, []);
+  fs.writeFileSync("vejledninger3.json", JSON.stringify(uniqueData));
+}
+
+deduplicate();
