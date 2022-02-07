@@ -1,4 +1,4 @@
-import { BrowserMultiFormatReader, Result } from "@zxing/library";
+import { BrowserMultiFormatReader } from "@zxing/browser";
 import React, { Ref, useCallback, useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 
@@ -10,7 +10,7 @@ export const BarcodeScannerComponent = ({
   delay = 500,
   videoConstraints,
 }: {
-  onUpdate: (arg1?: Result) => void;
+  onUpdate: (arg1?: any) => void;
   onError?: (arg0: string | DOMException) => void;
   facingMode?: "environment" | "user";
   torch?: boolean;
@@ -26,8 +26,9 @@ export const BarcodeScannerComponent = ({
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
       codeReader
-        .decodeFromImage(undefined, imageSrc)
+        .decodeFromImageUrl(imageSrc)
         .then((result) => {
+          console.log("Result we got is:", result);
           onUpdate(result);
         })
         .catch(() => {

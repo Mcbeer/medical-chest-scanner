@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@zxing/browser": "^0.1.1",
     "@zxing/library": "^0.19.1",
     "i18next": "^21.6.10",
     "idb-keyval": "^6.1.0",

@@ -41,8 +41,7 @@ const main = () => {
     lang: "da-DK",
   };
   let counter = 0;
-  withoutHeaders.forEach((row) => {
-    console.log(row);
+  withoutHeaders.forEach((row, index) => {
     if (row.length === 1) {
       intermediate = {
         id: "",
@@ -65,12 +64,14 @@ const main = () => {
       return;
     }
 
-    console.table(row);
-
     if (row.length === 4 && counter === 1) {
       intermediate.id = row[1]?.trim() ?? "";
       intermediate.name = row[3]?.trim() ?? "";
-      if (isDanish(row[1]?.trim()) || isDanish(row[3]?.trim())) {
+      if (
+        isDanish(row[1]?.trim()) ||
+        isDanish(row[3]?.trim()) ||
+        isDanish(row[2]?.trim())
+      ) {
         intermediate.lang = "da-DK";
       }
       counter++;
@@ -159,6 +160,11 @@ const main = () => {
     }
   });
 
+  groupedData.forEach((item) => {
+    const duplicate = groupedData.filter((x) => x.id === item.id);
+    console.log("Duplicates of ", item.id, duplicate.length);
+  });
+
   fs.writeFileSync("vejledninger2.json", JSON.stringify(groupedData));
   console.log("Data mapped...");
 };
@@ -167,7 +173,7 @@ const isDanish = (str: string) => {
   return str.includes("æ") || str.includes("ø") || str.includes("å");
 };
 
-// main();
+main();
 
 function deduplicate() {
   const data = fs.readFileSync("vejledninger.json", "utf8");
@@ -181,4 +187,4 @@ function deduplicate() {
   fs.writeFileSync("vejledninger3.json", JSON.stringify(uniqueData));
 }
 
-deduplicate();
+// deduplicate();
