@@ -22,10 +22,12 @@ export const GuidesList = () => {
 const GuideListItem = ({ guide }: { guide: DataModel }) => {
   return (
     <div className="GuideListItem">
-      <div className="GuideListItem__id">{guide.id}</div>
-      <div className="GuideListItem__name">{guide.name}</div>
       <Link to={guide.id}>
-        <BiChevronRightCircle size="1.5rem" />{" "}
+        <div className="GuideListItem__content">
+          <div className="GuideListItem__id">{guide.id}</div>
+          <div className="GuideListItem__name">{guide.name}</div>
+          <BiChevronRightCircle size="1.5rem" />{" "}
+        </div>
       </Link>
     </div>
   );

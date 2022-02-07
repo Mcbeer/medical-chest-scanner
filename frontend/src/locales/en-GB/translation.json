@@ -7,5 +7,8 @@
     "validity": "Validity",
     "storage": "Storage",
     "remarks": "Remarks"
+  },
+  "errors": {
+    "noGuideToDisplay": "No guide to display - Try changing the language above, to see if it exists in another language"
   }
 }

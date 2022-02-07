@@ -28,6 +28,11 @@ export const GuideDisplay = () => {
       <div className="GuideDisplay__close">
         <CloseButton onClick={onClose} />
       </div>
+      {!selectedGuide && (
+        <div className="GuideDisplay__error-message">
+          <h1>{t("errors.noGuideToDisplay")}</h1>
+        </div>
+      )}
       {selectedGuide && (
         <div className="GuideDisplay__content">
           <div className="GuideDisplay__title">
