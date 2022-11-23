@@ -19,11 +19,13 @@ interface DataModel {
 }
 
 const main = () => {
-  const workSheetsFromFile = xlsx.parse(
-    `${__dirname}/rettetvejledninger2.xlsx`
-  );
+  const workSheetsFromFile = xlsx.parse(`${__dirname}/vejledninger.xlsx`);
   const sheetData = workSheetsFromFile[0].data as ReadExcelRow[];
-  const withoutHeaders = sheetData.slice(2);
+
+  // console.log(sheetData[0].length, sheetData[3].length, sheetData[8].length);
+  // sheetData.forEach((item) => console.log(item.length));
+
+  // const withoutHeaders = sheetData.slice(2);
 
   const groupedData: DataModel[] = [];
   let intermediate: DataModel = {
@@ -41,7 +43,7 @@ const main = () => {
     lang: "da-DK",
   };
   let counter = 0;
-  withoutHeaders.forEach((row, index) => {
+  sheetData.forEach((row) => {
     if (row.length === 1) {
       intermediate = {
         id: "",
@@ -160,12 +162,12 @@ const main = () => {
     }
   });
 
-  groupedData.forEach((item) => {
-    const duplicate = groupedData.filter((x) => x.id === item.id);
-    console.log("Duplicates of ", item.id, duplicate.length);
-  });
+  // groupedData.forEach((item) => {
+  //   const duplicate = groupedData.filter((x) => x.id === item.id);
+  //   console.log("Duplicates of ", item.id, duplicate.length);
+  // });
 
-  fs.writeFileSync("vejledninger2.json", JSON.stringify(groupedData));
+  fs.writeFileSync("vejledninger4.json", JSON.stringify(groupedData));
   console.log("Data mapped...");
 };
 
