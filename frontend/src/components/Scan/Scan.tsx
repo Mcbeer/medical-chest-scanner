@@ -22,7 +22,9 @@ export const Scan = () => {
     <>
       <div
         className="Scan__torch"
-        style={{ backgroundColor: torchActive ? "yellow" : "#fff" }}
+        style={{
+          boxShadow: torchActive ? "0px 0px 15px #fff" : "0px 0px 0px#fff",
+        }}
         onClick={handleSetTorch}
       >
         <BiBulb style={{ pointerEvents: "none" }} size="2rem" />

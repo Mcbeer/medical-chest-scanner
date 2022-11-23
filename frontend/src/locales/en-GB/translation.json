@@ -8,6 +8,9 @@
     "storage": "Storage",
     "remarks": "Remarks"
   },
+  "header": {
+    "ready": "Ready"
+  },
   "errors": {
     "noGuideToDisplay": "No guide to display - Try changing the language above, to see if it exists in another language"
   }

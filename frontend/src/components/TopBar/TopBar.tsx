@@ -1,6 +1,7 @@
 import { set } from "idb-keyval";
 import { useObservableState } from "observable-hooks";
 import React, { ReactNode, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { BiBook, BiCheck, BiSync, BiX } from "react-icons/bi";
 import { useGuideContext } from "../../context/GuideContext";
 import { useLanguageContext } from "../../context/LanguageContext";
@@ -9,6 +10,7 @@ import { fetchGuides } from "../../scripts/fetchGuides";
 import "./TopBar.scss";
 
 export const TopBar = () => {
+  const { t } = useTranslation();
   const { guides$, guideSyncTime$ } = useGuideContext();
   const language$ = useLanguageContext();
   const guidesAvailable = useObservableState(guides$, []);
@@ -70,7 +72,9 @@ export const TopBar = () => {
             <BiX size="1.5rem" />
           )
         }
-        label={getReadyState()}
+        label={
+          getReadyState() === "ready" ? t("header.ready") : getReadyState()
+        }
         action={handleSyncGuides}
       />
       <TopBarItem

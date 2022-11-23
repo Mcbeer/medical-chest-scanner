@@ -8,6 +8,9 @@
     "storage": "Opbevaring",
     "remarks": "Anmærkninger"
   },
+  "header": {
+    "ready": "Klar"
+  },
   "errors": {
     "noGuideToDisplay": "Ingen vejledning fundet - Prøv på Englesk"
   }

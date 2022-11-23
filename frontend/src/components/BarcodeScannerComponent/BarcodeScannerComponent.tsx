@@ -1,6 +1,6 @@
 import { Result } from "@zxing/library";
 import { BrowserMultiFormatReader } from "@zxing/browser";
-import React, { Ref, useCallback, useEffect, useRef } from "react";
+import React, { Ref, useCallback, useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 
 export const BarcodeScannerComponent = ({
