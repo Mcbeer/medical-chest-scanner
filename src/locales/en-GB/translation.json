@@ -1,0 +1,22 @@
+{
+  "guideDisplay": {
+    "form": "Form",
+    "effect": "Effect",
+    "dosage": "Dosage",
+    "sideEffects": "Side Effects",
+    "validity": "Validity",
+    "storage": "Storage",
+    "remarks": "Remarks"
+  },
+  "header": {
+    "ready": "Ready",
+    "guides": "guides"
+  },
+  "nav": {
+    "scan": "Scan",
+    "list": "List"
+  },
+  "errors": {
+    "noGuideToDisplay": "No guide to display - Try changing the language above, to see if it exists in another language"
+  }
+}

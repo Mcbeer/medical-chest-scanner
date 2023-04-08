@@ -1,0 +1,22 @@
+{
+  "guideDisplay": {
+    "form": "Form",
+    "effect": "Effekt",
+    "dosage": "Dosering",
+    "sideEffects": "Bivirkninger",
+    "validity": "Holdbarhed",
+    "storage": "Opbevaring",
+    "remarks": "Anmærkninger"
+  },
+  "header": {
+    "ready": "Klar",
+    "guides": "vejledninger"
+  },
+  "nav": {
+    "scan": "Scan",
+    "list": "Liste"
+  },
+  "errors": {
+    "noGuideToDisplay": "Ingen vejledning fundet - Prøv på Englesk"
+  }
+}
