@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { BiBulb } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { BarcodeScannerComponent } from "../BarcodeScannerComponent/BarcodeScannerComponent";
@@ -18,9 +18,22 @@ export const Scan = () => {
     setTorchActive(!torchActive);
   };
 
+  const isIOS = useMemo(() => {
+    return [
+      'iPad Simulator',
+      'iPhone Simulator',
+      'iPod Simulator',
+      'iPad',
+      'iPhone',
+      'iPod'
+    ].includes(navigator.platform)
+    // iPad on iOS 13 detection
+    || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  }, [])
+
   return (
     <>
-      <div
+      {!isIOS && <div
         className="Scan__torch"
         style={{
           boxShadow: torchActive ? "0px 0px 15px #fff" : "0px 0px 0px#fff",
@@ -28,7 +41,7 @@ export const Scan = () => {
         onClick={handleSetTorch}
       >
         <BiBulb style={{ pointerEvents: "none" }} size="2rem" />
-      </div>
+      </div>}
       <BarcodeScannerComponent
         torch={torchActive}
         onUpdate={(result) => {
