@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 jobs:
-  lint: 
+  lint:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,22 +42,21 @@ jobs:
       # Runs tests in frontend
       - name: Run all tests
         run: npm run test 
-         
+
   build:
       runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-
+      strategy:
+        matrix:
+          node-version: [18.x]
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - uses: actions/checkout@v2
 
-      # Runs yarn ci in backend
-      - name: Run npm install
-        run: npm ci
+        # Runs yarn ci in backend
+        - name: Run npm install
+          run: npm ci
 
-      # Runs tests in frontend
-      - name: Run all tests
-        run: npm run build
+        # Runs tests in frontend
+        - name: Run all tests
+          run: npm run build
