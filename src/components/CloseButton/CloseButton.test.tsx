@@ -1,4 +1,5 @@
 import React from 'react';
+import { describe, it, expect } from 'vitest'
 import { render, screen } from "@testing-library/react";
 import { CloseButton } from "./CloseButton";
 
@@ -8,8 +9,8 @@ describe("CloseButton", () => {
       // I do nothing
     }} />);
     it("should render a button element", () => {
-      expect(screen.getByRole("button")).toBeInTheDocument();
-      expect(screen.getByTestId("close-button")).toBeInTheDocument();
+      expect(screen.getByRole("button")).not.toBeNull();
+      expect(screen.getByTestId("close-button")).not.toBeNull();
     });
   });
 });
